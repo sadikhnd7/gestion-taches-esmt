@@ -1,0 +1,82 @@
+{% extends 'tasks/base.html' %}
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4>Mes Projets</h4>
+    <div class="d-flex gap-2">
+        <a href="{% url 'create_project' %}" class="btn btn-primary btn-sm">+ Nouveau Projet</a>
+        <a href="{% url 'create_task' %}" class="btn btn-outline-light btn-sm">+ Nouvelle Tâche</a>
+    </div>
+</div>
+
+{% if projects %}
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+    {% for project in projects %}
+    <div class="col">
+        <div class="card h-100 p-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ project.name }}</h5>
+                <p class="card-text text-secondary">{{ project.description }}</p>
+                <hr style="border-color: #2e3d52;">
+                <p class="text-secondary small mb-2">Tâches :</p>
+                {% for task in project.tasks.all %}
+            <div class="d-flex justify-content-between align-items-center mb-2">
+            <span>{{ task.title }}</span>
+            <div class="d-flex gap-2 align-items-center">
+              <span class="badge
+            {% if task.status == 'todo' %}badge-todo
+            {% elif task.status == 'in_progress' %}badge-inprogress
+            {% else %}badge-done{% endif %}">
+            {{ task.get_status_display }}
+                </span>
+                <a href="{% url 'edit_task' task.pk %}" class="btn btn-sm btn-outline-light">✏️</a>
+                <a href="{% url 'delete_task' task.pk %}" class="btn btn-sm btn-danger">🗑️</a>
+                </div>
+            </div>
+                {% empty %}
+                <p class="text-secondary small">Aucune tâche</p>
+                {% endfor %}
+            </div>
+            <div class="card-footer d-flex gap-2" style="background: transparent; border-top: 1px solid #2e3d52;">
+                <a href="{% url 'edit_project' project.pk %}" class="btn btn-sm btn-outline-light">Modifier</a>
+                <a href="{% url 'add_member' project.pk %}" class="btn btn-sm btn-outline-light">+ Membre</a>
+                <a href="{% url 'delete_project' project.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center text-secondary mt-5">
+    <p>Aucun projet pour l'instant.</p>
+    <a href="{% url 'create_project' %}" class="btn btn-primary">Créer mon premier projet</a>
+</div>
+{% endif %}
+
+<h4 class="mb-3">Mes Tâches Assignées</h4>
+{% if tasks %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for task in tasks %}
+    <div class="col">
+        <div class="card p-3">
+            <h6>{{ task.title }}</h6>
+            <p class="text-secondary small">{{ task.description }}</p>
+            <p class="text-secondary small">📅 {{ task.deadline }}</p>
+            <span class="badge
+                {% if task.status == 'todo' %}badge-todo
+                {% elif task.status == 'in_progress' %}badge-inprogress
+                {% else %}badge-done{% endif %}">
+                {{ task.get_status_display }}
+            </span>
+            <div class="mt-2">
+                <a href="{% url 'edit_task' task.pk %}" class="btn btn-sm btn-outline-light">Modifier</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-secondary">Aucune tâche assignée.</p>
+{% endif %}
+{% endblock %}

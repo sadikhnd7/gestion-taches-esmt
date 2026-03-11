@@ -1,0 +1,26 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}Modifier un projet{% endblock %}
+
+{% block content %}
+<div class="form-card">
+<h4 class="text-center mb-4">Modifier un projet</h4>
+<form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Nom du projet</label>
+        <input type="text" name="name" value="{{project.name}}" class="form-control" >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-control" >{{project.description}}</textarea>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+    <button type="submit" class="btn btn-primary w-100">Modifier</button>
+    </div>
+    <p class="text-center text-secondary mt-4"><a href="{% url 'dashboard' %}" class="text-info">Retour au dashboard</a>
+</p>
+</form>
+</div>
+{% endblock %}

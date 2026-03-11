@@ -1,0 +1,66 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}Modifier une tâche{% endblock %}
+
+{% block content %}
+<div class="form-card">
+<h4 class="text-center mb-4">Modifier une tâche</h4>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+            <label class="form-label">Titre de la tâche</label>
+    <input type="text" name="title" class="form-control" value="{{task.title}}">
+    </div>
+    <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control">{{task.description}}</textarea>
+    </div>
+    <div class="mb-3">
+            <label class="form-label">Deadline</label>
+    <input type="datetime-local" name="deadline" class="form-control"
+    value="{{ task.deadline|date:'Y-m-d' }}T{{ task.deadline|time:'H:i' }}">
+    </div>
+    <div class="mb-3">
+            <label class="form-label">Statut</label>
+    <select name="status" id="status" class="form-select">
+    <option value="todo" {% if task.status == 'todo' %}selected{% endif %}>À faire</option>
+    <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>En cours</option>
+    <option value="done" {% if task.status == 'done' %}selected{% endif %}>Terminé</option>
+</select>
+    </div>
+
+    <div class="mb-3">
+            <label class="form-label">Nom du projet associé</label>
+<select name="project" class="form-select">
+    {% for project in projects %}
+        <option value="{{ project.pk }}"
+            {% if project == task.project %}selected{% endif %}>
+            {{ project.name }}
+        </option>
+    {% endfor %}
+</select>
+    </div>
+
+    <div class="mb-3">
+            <label class="form-label">Utilisateur assigné</label>
+<select name="assigned_to" class="form-select">
+    {% for user in users %}
+        <option value="{{ user.pk }}"
+            {% if user == task.assigned_to %}selected{% endif %}>
+            {{ user.username }}
+        </option>
+    {% endfor %}
+</select>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary w-100">Modifier</button>
+        </div>
+</form>
+
+<p class="text-center text-secondary mt-3"><a href="{% url 'dashboard' %}" class="text-info">Retour au dashboard</a>
+</p>
+</div>
+    {% endblock %}

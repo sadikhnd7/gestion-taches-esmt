@@ -1,0 +1,71 @@
+body {
+            background-color: #1a2234;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .navbar {
+            background-color: #1e2a3a !important;
+            border-bottom: 1px solid #2e3d52;
+        }
+        .navbar a {
+            color: #e0e0e0 !important;
+        }
+        .card {
+            background-color: #1e2a3a;
+            border: 1px solid #2e3d52;
+            border-radius: 12px;
+            color: #e0e0e0;
+        }
+        .card:hover {
+            border-color: #4a6fa5;
+            transition: 0.3s;
+        }
+        .form-control, .form-select {
+            background-color: #253447;
+            border: 1px solid #2e3d52;
+            color: #e0e0e0;
+            border-radius: 8px;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #253447;
+            border-color: #4a6fa5;
+            color: #e0e0e0;
+            box-shadow: 0 0 0 0.2rem rgba(74,111,165,0.25);
+        }
+        .btn-primary {
+            background-color: #4a6fa5;
+            border-color: #4a6fa5;
+            border-radius: 8px;
+        }
+        .btn-primary:hover {
+            background-color: #3a5f95;
+        }
+        .btn-outline-light {
+            border-radius: 8px;
+        }
+        .btn-danger {
+            border-radius: 8px;
+        }
+        .form-label {
+            color: #e0e0e0 !important;
+            font-size: 0.96rem;
+        }
+        .form-card {
+            background-color: #1e2a3a;
+            border: 1px solid #2e3d52;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        footer {
+            background-color: #1e2a3a;
+            border-top: 1px solid #2e3d52;
+            color: #a0b0c0;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 3rem;
+        }
+        .badge-todo { background-color: #4a5568; }
+        .badge-inprogress { background-color: #4a6fa5; }
+        .badge-done { background-color: #2d6a4f; }

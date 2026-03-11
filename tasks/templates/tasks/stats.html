@@ -1,0 +1,48 @@
+{% extends 'tasks/base.html' %}
+{% block title %}Statistiques{% endblock %}
+
+{% block content %}
+<h4 class="mb-4">Statistiques des Professeurs</h4>
+
+<div class="card p-3">
+    <table class="table table-dark table-hover">
+        <thead>
+            <tr>
+                <th>Professeur</th>
+                <th>Total tâches</th>
+                <th>Dans les délais</th>
+                <th>Pourcentage</th>
+                <th>Prime</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in stats_data %}
+            <tr>
+                <td>{{ stat.professeur.username }}</td>
+                <td>{{ stat.total_tasks }}</td>
+                <td>{{ stat.tasks_in_time }}</td>
+                <td>
+                    <!-- Barre de progression -->
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar
+                            {% if stat.percentage == 100 %}bg-success
+                            {% elif stat.percentage >= 90 %}bg-info
+                            {% else %}bg-danger{% endif %}"
+                            style="width: {{ stat.percentage }}%">
+                            {{ stat.percentage }}%
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    {% if stat.prime > 0 %}
+                        <span class="badge bg-success">{{ stat.prime }} FCFA</span>
+                    {% else %}
+                        <span class="badge bg-danger">Pas de prime</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
