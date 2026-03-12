@@ -131,8 +131,7 @@ def edit_task(request, pk):
     task = Task.objects.get(pk=pk)
 
     if request.user != task.project.created_by and request.user != task.assigned_to:
-        return render(request, 'tasks/dashboard.html',
-                      {'error': "Vous n'avez pas la permission de modifier cette tâche"})
+        return redirect('dashboard')
 
     if request.method == 'POST':
         task.title = request.POST['title']
@@ -140,9 +139,18 @@ def edit_task(request, pk):
         task.deadline = request.POST['deadline']
         task.status = request.POST['status']
         task.project = Project.objects.get(pk=request.POST['project'])
-        task.assigned_to = User.objects.get(pk=request.POST['assigned_to'])
-        if task.status == 'done' and not task.completed_at:
-            task.completed_at = timezone.now()
+        assigned_to = User.objects.get(pk=request.POST['assigned_to'])
+
+        if request.user.profile.role == 'etudiant':
+            if assigned_to.profile.role == 'professeur':
+                return render(request, 'tasks/edit_task.html', {
+                    'task': task,
+                    'projects': Project.objects.all(),
+                    'users': User.objects.filter(profile__isnull=False),
+                    'error': "Un étudiant ne peut pas assigner un professeur"
+                })
+
+        task.assigned_to = assigned_to
         task.save()
         return redirect('dashboard')
 
@@ -151,7 +159,6 @@ def edit_task(request, pk):
         'projects': Project.objects.all(),
         'users': User.objects.filter(profile__isnull=False)
     })
-
 
 @login_required
 def delete_task(request, pk):

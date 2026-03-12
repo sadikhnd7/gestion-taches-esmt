@@ -6,6 +6,11 @@
 <div class="form-card">
 <h4 class="text-center mb-4">Modifier une tâche</h4>
 
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+
 <form method="POST">
     {% csrf_token %}
     
