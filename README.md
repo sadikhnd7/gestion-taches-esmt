@@ -28,6 +28,8 @@ python manage.py runserver
 ### 6. Accéder à l'application
 - Application : http://127.0.0.1:8000
 - Admin : http://127.0.0.1:8000/admin
+- username: admin
+- password: 123
 
 ## Modèles de données
 
